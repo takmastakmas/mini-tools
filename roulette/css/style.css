@@ -1,0 +1,177 @@
+/* roulette/css/style.css */
+/* App-specific styles */
+
+/* Override container to be wider */
+.container {
+    max-width: 1200px;
+}
+
+main {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+section {
+    margin-bottom: 0;
+}
+
+.control-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+}
+
+.button-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.count-info {
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--accent-color);
+    padding: 0 15px;
+    white-space: nowrap;
+}
+
+#nameCount {
+    font-size: 1.2rem;
+}
+
+.input-section {
+    background: var(--surface-color);
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.name-input-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.name-group {
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.group-header {
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+.name-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.name-input {
+    flex: 1;
+    min-width: 0;
+    font-size: 2.8rem;
+    font-weight: bold;
+    height: 55px;
+    padding: 8px 12px;
+}
+
+.name-input:not(:placeholder-shown) {
+    background-color: #f0fff4; /* Light green */
+    border-color: var(--accent-color);
+}
+
+.roulette-number {
+    width: 65px;
+    height: 55px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--text-secondary);
+    transition: all 0.3s;
+}
+
+.roulette-number.spinning {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+    animation: pulse-number 0.15s infinite;
+}
+
+.roulette-number.stopped {
+    background: #fb923c; /* Orange-400 */
+    color: white;
+    border-color: #fb923c;
+    animation: bounce-in 0.5s ease;
+}
+
+.roulette-number.stopped.first,
+.roulette-number.stopped.last {
+    background: #f97316; /* Orange-500 */
+    border-color: #f97316;
+}
+
+@keyframes pulse-number {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+}
+
+@keyframes bounce-in {
+    0% { transform: scale(0.8); }
+    50% { transform: scale(1.15); }
+    100% { transform: scale(1); }
+}
+
+.flash-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: white;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 9999;
+}
+
+.flash-overlay.active {
+    animation: flash-effect 0.6s ease-out;
+}
+
+@keyframes flash-effect {
+    0% { opacity: 0; }
+    50% { opacity: 0.8; }
+    100% { opacity: 0; }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        max-width: 100%;
+        min-width: 0;
+    }
+    .control-section { flex-direction: column; }
+    .button-group { width: 100%; }
+    .btn { flex: 1; }
+    .count-info { width: 100%; text-align: center; }
+}

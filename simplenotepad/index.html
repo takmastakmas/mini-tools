@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ブラウザメモ帳</title>
+    <meta name="description" content="タイトルとテキストを自動保存できるシンプルなメモ帳">
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="header-container">
+            <h1>📝 ブラウザメモ帳</h1>
+            <div class="header-actions">
+                <button id="timestampBtn" class="btn btn-secondary">
+                    <span class="icon">🕒</span> タイムスタンプ
+                </button>
+                <button id="clearBtn" class="btn btn-danger">クリア</button>
+                <button id="copyBtn" class="btn btn-primary">コピー</button>
+                <div class="download-wrapper">
+                    <button id="downloadBtn" class="btn btn-info">ダウンロード</button>
+                    <select id="fileFormat" class="format-select">
+                        <option value="txt">.txt</option>
+                        <option value="md">.md</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="editor-container">
+            <div class="input-section">
+                <div class="input-header">
+                    <label for="title">📄 タイトル</label>
+                    <span class="stats">
+                        <span class="stat-item">
+                            <strong>文字数:</strong> <span id="charCount">0</span>
+                        </span>
+                        <span class="stat-item">
+                            <strong>行数:</strong> <span id="lineCount">0</span>
+                        </span>
+                    </span>
+                </div>
+                <input type="text" id="title" placeholder="タイトルを入力... / これが保存時のファイル名になります / 未記入でも可">
+                
+                <div class="textarea-wrapper">
+                    <textarea id="content" placeholder="メモを入力..."></textarea>
+                </div>
+            </div>
+        </div>
+        
+        <div id="notification" class="notification"></div>
+    </main>
+
+    <!-- Scripts -->
+    <script src="../js/utils.js"></script>
+    <script src="js/notepad.js"></script>
+</body>
+</html>

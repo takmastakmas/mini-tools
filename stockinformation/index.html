@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>株式リンクジェネレーター - Yahoo!ファイナンス・みんかぶ</title>
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-link"></i> 株式リンクジェネレーター</h1>
+            <p class="subtitle">銘柄コードから投資情報サイトへ簡単アクセス</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <!-- 銘柄コード入力セクション -->
+        <section class="card input-section">
+            <div class="input-description">
+                <i class="fas fa-info-circle"></i>
+                <p>銘柄コードを入力して実行ボタンを押してください</p>
+            </div>
+            <div class="input-box">
+                <input type="text" id="stockCodeInput" placeholder="銘柄コードを入力（例：7203）" autocomplete="off" maxlength="4">
+                <button id="executeBtn" class="btn btn-primary">
+                    <i class="fas fa-play"></i>
+                    実行
+                </button>
+            </div>
+            <div class="history-section" id="historySection" style="display: none;">
+                <span class="history-label">
+                    <i class="fas fa-history"></i> 履歴：
+                </span>
+                <div id="historyButtons" class="history-buttons">
+                    <!-- 履歴ボタンがここに動的に生成されます -->
+                </div>
+                <button id="clearHistoryBtn" class="btn-clear-history" title="履歴を削除">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- 結果セクション -->
+        <section class="result-section" id="resultSection" style="display: none;">
+            <div class="result-card">
+                <div class="result-header">
+                    <i class="fas fa-check-circle"></i>
+                    <h2>銘柄コード: <span id="displayCode"></span></h2>
+                </div>
+                <div class="link-buttons">
+                    <a id="shikihoLink" href="#" target="_blank" rel="noopener noreferrer" class="link-btn shikiho">
+                        <i class="fas fa-external-link-alt"></i>
+                        四季報
+                    </a>
+                    <a id="yahooLink" href="#" target="_blank" rel="noopener noreferrer" class="link-btn yahoo">
+                        <i class="fas fa-external-link-alt"></i>
+                        Yahoo!ファイナンス
+                    </a>
+                    <a id="minkabuLink" href="#" target="_blank" rel="noopener noreferrer" class="link-btn minkabu">
+                        <i class="fas fa-external-link-alt"></i>
+                        みんかぶ
+                    </a>
+                    <a id="kabutanLink" href="#" target="_blank" rel="noopener noreferrer" class="link-btn kabutan">
+                        <i class="fas fa-external-link-alt"></i>
+                        株探（決算）
+                    </a>
+                    <a id="kabumapLink" href="#" target="_blank" rel="noopener noreferrer" class="link-btn kabumap">
+                        <i class="fas fa-external-link-alt"></i>
+                        株マップ
+                    </a>
+                    <a id="ulletLink" href="#" target="_blank" rel="noopener noreferrer" class="link-btn ullet">
+                        <i class="fas fa-external-link-alt"></i>
+                        Ullet
+                    </a>
+                    <a id="kabuyohoLink" href="#" target="_blank" rel="noopener noreferrer" class="link-btn kabuyoho">
+                        <i class="fas fa-external-link-alt"></i>
+                        株予報pro
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p class="disclaimer">注意: このサイトは情報提供のみを目的としており、投資助言ではありません。投資判断は自己責任で行ってください。</p>
+        </div>
+    </footer>
+
+    <script src="../js/utils.js"></script>
+    <script src="js/linkgenerator.js"></script>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プログレスバー- コントロール画面</title>
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📊 プログレスバー</h1>
+            <p class="subtitle">残り時間を可視化してプレゼンをサポート</p>
+        </header>
+
+        <!-- プリセット時間選択 -->
+        <section class="section">
+            <h2>⏱️ 時間設定</h2>
+            <div class="preset-buttons">
+                <button class="preset-btn" data-minutes="5">5分</button>
+                <button class="preset-btn" data-minutes="10">10分</button>
+                <button class="preset-btn" data-minutes="15">15分</button>
+                <button class="preset-btn" data-minutes="20">20分</button>
+                <button class="preset-btn" data-minutes="30">30分</button>
+                <button class="preset-btn" data-minutes="45">45分</button>
+                <button class="preset-btn" data-minutes="60">60分</button>
+            </div>
+            
+            <div class="time-input-row">
+                <label class="time-input-label">カスタム時間：</label>
+                <div class="time-input-group">
+                    <input type="number" id="custom-minutes" class="time-input" min="0" max="999" value="3" placeholder="0">
+                    <span class="time-unit">分</span>
+                    <input type="number" id="custom-seconds" class="time-input" min="0" max="59" value="0" placeholder="0">
+                    <span class="time-unit">秒</span>
+                    <button id="set-custom-btn" class="btn btn-default btn-compact">設定</button>
+                </div>
+            </div>
+            
+            <div class="time-input-row">
+                <label class="time-input-label">終了時刻：</label>
+                <div class="time-input-group">
+                    <input type="number" id="end-hour" class="time-input" min="0" max="23" placeholder="0">
+                    <span class="time-unit">時</span>
+                    <input type="number" id="end-minute" class="time-input" min="0" max="59" placeholder="0">
+                    <span class="time-unit">分</span>
+                    <button id="set-endtime-btn" class="btn btn-default btn-compact">設定</button>
+                    <span id="calculated-time"></span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 現在の状態表示 -->
+        <section class="section">
+            <h2>📈 現在の状態</h2>
+            <div class="status-display">
+                <div class="time-display">
+                    <div class="time-label">残り時間</div>
+                    <div class="time-value" id="current-time">03:00</div>
+                </div>
+                <div class="time-display">
+                    <div class="time-label">合計時間</div>
+                    <div class="time-value secondary" id="total-time">03:00</div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <div class="progress-bar" id="main-progress-bar">
+                    <div class="progress-fill" id="main-progress-fill"></div>
+                </div>
+                <div class="progress-text" id="progress-text">0%</div>
+            </div>
+        </section>
+
+        <!-- コントロールボタン -->
+        <section class="section">
+            <h2>🎮 コントロール</h2>
+            <div class="control-buttons">
+                <button id="start-btn" class="btn btn-primary">
+                    <span class="btn-icon">▶</span> 開始
+                </button>
+                <button id="pause-btn" class="btn btn-secondary" disabled>
+                    <span class="btn-icon">⏸</span> 一時停止
+                </button>
+                <button id="reset-btn" class="btn btn-danger">
+                    <span class="btn-icon">⟲</span> リセット
+                </button>
+            </div>
+            
+            <button id="open-progress-btn" class="btn btn-primary btn-large">
+                <span class="btn-icon">🖥️</span> プログレスバーウィンドウを開く
+            </button>
+        </section>
+
+        <!-- 設定 -->
+        <section class="section">
+            <h2>⚙️ 設定</h2>
+            <p style="margin-bottom: 20px; padding: 12px; background: #fef3c7; border-left: 4px solid #f59e0b; border-radius: 4px; color: #92400e; font-size: 0.95rem;">
+                <strong>💡 ヒント：</strong> バーの高さや色を変更した場合は、下の「設定を反映」ボタンを押してください。
+            </p>
+            
+            <div class="settings-group">
+                <label for="bar-height">プログレスバーの高さ（px）：</label>
+                <input type="range" id="bar-height" min="10" max="300" value="20" step="1">
+                <span id="bar-height-value">20</span>px
+            </div>
+
+            <div class="settings-group">
+                <label>プログレスバーの色設定：</label>
+                <div class="color-settings-simple">
+                    <div class="color-input-group-inline">
+                        <label for="normal-color">残り30%以上：</label>
+                        <input type="color" id="normal-color" value="#4CAF50">
+                    </div>
+                    <div class="color-input-group-inline">
+                        <label for="attention-color">残り10-30%：</label>
+                        <input type="color" id="attention-color" value="#FF9800">
+                    </div>
+                    <div class="color-input-group-inline">
+                        <label for="danger-color">残り10%以下：</label>
+                        <input type="color" id="danger-color" value="#F44336">
+                    </div>
+                </div>
+            </div>
+
+            <div class="settings-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="show-time" checked>
+                    残り時間を表示
+                </label>
+            </div>
+
+            <div class="settings-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="enable-blink">
+                    残り10%以下で点滅
+                </label>
+            </div>
+
+            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <button id="save-settings-btn" class="btn btn-primary" style="flex: 1; min-width: 200px;">
+                    <span class="btn-icon">💾</span> 設定を反映
+                </button>
+                <button id="clear-settings-btn" class="btn btn-danger" style="flex: 1; min-width: 200px;">
+                    <span class="btn-icon">🗑️</span> 設定をクリア
+                </button>
+            </div>
+        </section>
+
+        <!-- URLバーやタイトルバーを非表示にする方法 -->
+        <section class="section">
+            <div style="padding: 20px; background: #f8fafc; border: 1px solid var(--border-color); border-radius: 12px; color: var(--text-primary); box-shadow: var(--shadow-sm);">
+                <h3 style="margin: 0 0 15px 0; font-size: 1.2rem; display: flex; align-items: center; gap: 10px;">
+                    🎯 URLバーやタイトルバーを非表示にする方法
+                </h3>
+                
+                <div style="background: var(--surface-color); padding: 15px; border-radius: 8px; margin-bottom: 15px;">
+                    <h4 style="margin: 0 0 10px 0; color: var(--accent-color); font-size: 1.1rem;">✨ 推奨方法</h4>
+                    <ol style="margin: 0; padding-left: 20px; line-height: 1.8;">
+                        <li>プログレスバーウィンドウで <strong style="background: #e5e7eb; padding: 3px 8px; border-radius: 4px; border: 1px solid #d1d5db;">F11</strong> キーを押す</li>
+                        <li>またはダブルクリックでフルスクリーンモードに移行</li>
+                        <li>プログレスバーのみが表示されます！</li>
+                    </ol>
+                </div>
+                
+                <div style="background: var(--surface-color); padding: 15px; border-radius: 8px;">
+                    <h4 style="margin: 0 0 10px 0; color: var(--accent-color); font-size: 1.1rem;">⌨️ 便利なショートカット</h4>
+                    <div style="display: grid; grid-template-columns: auto 1fr; gap: 10px; align-items: center;">
+                        <span style="background: #e5e7eb; padding: 5px 12px; border-radius: 5px; font-weight: bold; border: 1px solid #d1d5db; text-align: center;">F11</span>
+                        <span>フルスクリーン切り替え</span>
+                        
+                        <span style="background: #e5e7eb; padding: 5px 12px; border-radius: 5px; font-weight: bold; border: 1px solid #d1d5db; text-align: center;">Esc</span>
+                        <span>フルスクリーン解除 / ウィンドウを閉じる</span>
+                        
+                        <span style="background: #e5e7eb; padding: 5px 12px; border-radius: 5px; font-weight: bold; border: 1px solid #d1d5db; text-align: center; font-size: 0.85rem;">ダブルクリック</span>
+                        <span>フルスクリーン切り替え</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- 共通ユーティリティ -->
+    <script src="../js/utils.js"></script>
+    <!-- アプリロジック（設定画面） -->
+    <script src="js/settings.js"></script>
+</body>
+</html>

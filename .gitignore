@@ -1,0 +1,22 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# 秘密情報
+.env
+.env.*
+!.env.example
+*.pem
+secrets.json
+
+# OS・エディタ
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+
+# データ（必要に応じて）
+CLAUDE.md

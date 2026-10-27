@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カウンター付き名簿アプリ</title>
+    
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="../css/shared.css">
+    
+    <!-- App Specific CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1><i class="fas fa-users"></i> カウンター付き名簿</h1>
+            <p class="subtitle">参加者名簿にカウンターを追加</p>
+        </header>
+
+        <!-- Input Area -->
+        <div class="card">
+            <h2 style="font-size: 1.5rem; margin-bottom: 20px; color: var(--text-primary);">
+                <i class="fas fa-clipboard-list" style="color: var(--accent-color); margin-right: 8px;"></i>参加者名簿入力
+            </h2>
+            
+            <div class="input-group">
+                <label for="participantInput">名前を改行区切りで入力してください</label>
+                <textarea 
+                    id="participantInput" 
+                    rows="8" 
+                    placeholder="名前&#10;鈴木&#10;山田&#10;&#10;または タブ区切り:&#10;グループ	名前&#10;A	鈴木&#10;A	山田"
+                ></textarea>
+            </div>
+            
+            <div class="input-group">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="useFirstRowAsLabel">
+                    <span>1行目を行ラベルとして使用する</span>
+                </label>
+            </div>
+            
+            <div class="btn-group">
+                <button id="createCountersBtn" class="btn btn-primary">
+                    <i class="fas fa-plus-circle"></i> カウンター作成
+                </button>
+                
+                <button id="uploadCsvBtnTop" class="btn btn-info">
+                    <i class="fas fa-upload"></i> データアップロード
+                </button>
+                <input type="file" id="csvFileInputTop" accept=".csv">
+                
+                <button id="clearInputBtn" class="btn btn-default">
+                    <i class="fas fa-eraser"></i> 入力クリア
+                </button>
+            </div>
+        </div>
+
+        <!-- Counter Management Area -->
+        <div id="controlArea" class="card hidden">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px;">
+                <div style="display: flex; align-items: center; gap: 16px;">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <i class="fas fa-chart-bar" style="color: var(--accent-color);"></i>
+                        <span style="font-size: 1.25rem; font-weight: 700; color: var(--text-primary);">カウンター管理</span>
+                    </div>
+                    <span style="font-size: 0.95rem; color: var(--text-secondary);">
+                        参加者数: <strong id="participantCount">0</strong>人
+                    </span>
+                </div>
+            </div>
+            
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+                <span style="font-size: 0.875rem; font-weight: 500; color: var(--text-primary);">カウンター名:</span>
+                <input type="text" id="counterAName" class="counter-name-input" placeholder="カウンターA">
+                <input type="text" id="counterBName" class="counter-name-input" placeholder="カウンターB">
+                <button id="updateCounterNamesBtn" class="btn btn-primary" style="padding: 6px 12px; font-size: 0.875rem;">
+                    <i class="fas fa-check"></i> 更新
+                </button>
+                <button id="resetAllBtn" class="btn btn-secondary" style="padding: 6px 12px; font-size: 0.875rem;">
+                    <i class="fas fa-redo"></i> 全てリセット
+                </button>
+                <button id="deleteAllBtn" class="btn btn-danger" style="padding: 6px 12px; font-size: 0.875rem;">
+                    <i class="fas fa-trash-alt"></i> カウンター削除
+                </button>
+                <button id="downloadCsvBtn" class="btn btn-info" style="padding: 6px 12px; font-size: 0.875rem;">
+                    <i class="fas fa-download"></i> データダウンロード
+                </button>
+            </div>
+        </div>
+
+        <!-- Counters Display -->
+        <div id="countersArea" class="card hidden">
+            <!-- Counter table will be inserted here -->
+        </div>
+
+        <!-- Empty State -->
+        <div id="emptyMessage" class="empty-state">
+            <div class="empty-icon">
+                <i class="fas fa-inbox"></i>
+            </div>
+            <p class="empty-text">参加者名簿を入力してカウンターを作成してください</p>
+        </div>
+    </div>
+
+    <!-- Memo Modal -->
+    <div id="memoModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-sticky-note" style="color: #fbbf24;"></i> メモ編集
+                </h3>
+                <button id="closeMemoModal" class="modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div>
+                <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 8px;">
+                    <strong id="memoTargetName"></strong> のメモ
+                </p>
+                <textarea 
+                    id="memoTextarea" 
+                    rows="6" 
+                    placeholder="メモを入力してください..."
+                ></textarea>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelMemoBtn" class="btn btn-default">
+                    キャンセル
+                </button>
+                <button id="saveMemoBtn" class="btn btn-primary">
+                    <i class="fas fa-save"></i> 保存
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/register.js"></script>
+</body>
+</html>

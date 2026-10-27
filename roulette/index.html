@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>発表順ルーレット</title>
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎰 ルーレット</h1>
+            <p class="subtitle">参加者の発表順などをランダムに決定します</p>
+        </header>
+        <main>
+            <!-- コントロールボタンと人数カウント -->
+            <section class="control-section">
+                <div class="button-group">
+                    <button id="startBtn" class="btn btn-primary">
+                        <span class="btn-icon">▶</span> スタート
+                    </button>
+                    <button id="stopBtn" class="btn btn-danger" disabled>
+                        <span class="btn-icon">■</span> ストップ
+                    </button>
+                    <button id="copyBtn" class="btn btn-primary" disabled>
+                        <span class="btn-icon">📋</span> 結果をコピー
+                    </button>
+                    <button id="clearResultBtn" class="btn btn-secondary">結果のクリア</button>
+                    <button id="clearAllBtn" class="btn btn-secondary">すべてクリア</button>
+                    <button id="settingsBtn" class="btn btn-info">
+                        <span class="btn-icon">⚙️</span> 設定
+                    </button>
+                </div>
+                <div class="count-info">
+                    <span id="nameCount">0</span> 名
+                </div>
+            </section>
+
+            <!-- 名前入力セクション -->
+            <section class="input-section">
+                
+                <!-- 表形式の入力欄: 2行 × 3列 = 6グループ、各グループ5人 -->
+                <div class="name-input-grid">
+                    <!-- 1行目 -->
+                    <div class="name-group">
+                        <div class="group-header">グループ1</div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="1人目" data-index="0">
+                            <span class="roulette-number" data-index="0"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="2人目" data-index="1">
+                            <span class="roulette-number" data-index="1"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="3人目" data-index="2">
+                            <span class="roulette-number" data-index="2"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="4人目" data-index="3">
+                            <span class="roulette-number" data-index="3"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="5人目" data-index="4">
+                            <span class="roulette-number" data-index="4"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="name-group">
+                        <div class="group-header">グループ2</div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="1人目" data-index="5">
+                            <span class="roulette-number" data-index="5"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="2人目" data-index="6">
+                            <span class="roulette-number" data-index="6"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="3人目" data-index="7">
+                            <span class="roulette-number" data-index="7"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="4人目" data-index="8">
+                            <span class="roulette-number" data-index="8"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="5人目" data-index="9">
+                            <span class="roulette-number" data-index="9"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="name-group">
+                        <div class="group-header">グループ3</div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="1人目" data-index="10">
+                            <span class="roulette-number" data-index="10"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="2人目" data-index="11">
+                            <span class="roulette-number" data-index="11"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="3人目" data-index="12">
+                            <span class="roulette-number" data-index="12"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="4人目" data-index="13">
+                            <span class="roulette-number" data-index="13"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="5人目" data-index="14">
+                            <span class="roulette-number" data-index="14"></span>
+                        </div>
+                    </div>
+                    
+                    <!-- 2行目 -->
+                    <div class="name-group">
+                        <div class="group-header">グループ4</div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="1人目" data-index="15">
+                            <span class="roulette-number" data-index="15"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="2人目" data-index="16">
+                            <span class="roulette-number" data-index="16"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="3人目" data-index="17">
+                            <span class="roulette-number" data-index="17"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="4人目" data-index="18">
+                            <span class="roulette-number" data-index="18"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="5人目" data-index="19">
+                            <span class="roulette-number" data-index="19"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="name-group">
+                        <div class="group-header">グループ5</div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="1人目" data-index="20">
+                            <span class="roulette-number" data-index="20"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="2人目" data-index="21">
+                            <span class="roulette-number" data-index="21"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="3人目" data-index="22">
+                            <span class="roulette-number" data-index="22"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="4人目" data-index="23">
+                            <span class="roulette-number" data-index="23"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="5人目" data-index="24">
+                            <span class="roulette-number" data-index="24"></span>
+                        </div>
+                    </div>
+                    
+                    <div class="name-group">
+                        <div class="group-header">グループ6</div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="1人目" data-index="25">
+                            <span class="roulette-number" data-index="25"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="2人目" data-index="26">
+                            <span class="roulette-number" data-index="26"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="3人目" data-index="27">
+                            <span class="roulette-number" data-index="27"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="4人目" data-index="28">
+                            <span class="roulette-number" data-index="28"></span>
+                        </div>
+                        <div class="name-row">
+                            <input type="text" class="name-input" placeholder="5人目" data-index="29">
+                            <span class="roulette-number" data-index="29"></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+
+        </main>
+    </div>
+
+    <!-- フラッシュ演出用オーバーレイ -->
+    <div class="flash-overlay" id="flashOverlay"></div>
+
+    <!-- 共通ユーティリティ -->
+    <script src="../js/utils.js"></script>
+    <!-- アプリのロジック -->
+    <script src="js/roulette.js"></script>
+</body>
+</html>

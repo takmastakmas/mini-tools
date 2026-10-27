@@ -1,0 +1,302 @@
+/* simplenotepad/css/style.css */
+/* App-specific styles - Full-width layout like markdownviewer */
+
+/* Header styling - sticky at top */
+header {
+    background-color: var(--surface-color);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0;
+}
+
+.header-container {
+    max-width: 100%;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+header h1 {
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    color: var(--text-primary);
+}
+
+.header-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+/* Make buttons in header smaller */
+.header-actions .btn {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+/* Download button with format selector */
+.download-wrapper {
+    display: flex;
+    gap: 0;
+    align-items: stretch;
+}
+
+.download-wrapper .btn-info {
+    border-radius: 8px 0 0 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.format-select {
+    padding: 0.5rem;
+    border: 1px solid #3b82f6;
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+    background: var(--surface-color);
+    color: #3b82f6;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+.format-select:hover {
+    background: #eff6ff;
+}
+
+/* Main Editor Layout - Full height */
+main {
+    height: calc(100vh - 69px); /* Adjust for header height */
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.editor-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--surface-color);
+    overflow: hidden;
+}
+
+.input-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.input-header {
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-color);
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.input-header label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.stats {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 0.875rem;
+}
+
+.stat-item {
+    color: var(--text-secondary);
+    white-space: nowrap;
+}
+
+.stat-item strong {
+    color: var(--text-primary);
+}
+
+.stat-item span {
+    color: var(--accent-color);
+    font-weight: 600;
+}
+
+/* Title Input */
+#title {
+    width: 100%;
+    padding: 1rem 2rem;
+    border: none;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 1rem;
+    font-family: inherit;
+    background-color: var(--surface-color);
+    color: var(--text-primary);
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#title:focus {
+    border-bottom-color: var(--accent-color);
+}
+
+/* Textarea Wrapper */
+.textarea-wrapper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Content Textarea - Full remaining height */
+#content {
+    flex: 1;
+    width: 100%;
+    padding: 1.5rem 2rem;
+    border: none;
+    outline: none;
+    font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    resize: none;
+    background-color: var(--surface-color);
+    color: var(--text-primary);
+    overflow-y: auto;
+}
+
+#content:focus {
+    box-shadow: none;
+}
+
+/* Icon styling */
+.icon {
+    font-size: 1rem;
+}
+
+/* Notification */
+.notification {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 0;
+    border-radius: 8px;
+    font-size: 14px;
+    text-align: center;
+    font-weight: 500;
+    opacity: 0;
+    transition: all 0.3s ease;
+    min-width: 200px;
+    max-width: 400px;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.notification.show {
+    padding: 12px 24px;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.notification.success {
+    background: #dcfce7;
+    color: #166534;
+    border: 1px solid #bbf7d0;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .header-container {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    header h1 {
+        font-size: 1.25rem;
+    }
+    
+    .header-actions {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .header-actions .btn {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.8rem;
+        flex: 1;
+    }
+    
+    .download-wrapper {
+        flex: 2;
+    }
+    
+    .input-header {
+        padding: 1rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .stats {
+        width: 100%;
+        justify-content: flex-start;
+    }
+    
+    #title {
+        padding: 1rem;
+        font-size: 0.95rem;
+    }
+    
+    #content {
+        padding: 1rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-actions {
+        flex-direction: column;
+    }
+    
+    .header-actions .btn,
+    .download-wrapper {
+        width: 100%;
+        flex: none;
+    }
+    
+    .stats {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

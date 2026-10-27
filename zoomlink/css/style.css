@@ -1,0 +1,251 @@
+/* zoomlink/css/style.css */
+/* App-specific styles */
+
+/* Header is unique for this app */
+header {
+    background: transparent; /* Remove green gradient background */
+    color: var(--text-primary); /* Set text to black */
+    padding: 30px 0;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+header h1 {
+    font-size: 2rem;
+    color: var(--text-primary); /* Set title text to black */
+    text-shadow: none; /* Remove text shadow */
+    margin-bottom: 10px;
+}
+
+.header-icon {
+    font-size: 3rem;
+    margin-bottom: 15px;
+    opacity: 0.9;
+}
+
+.subtitle {
+    font-size: 1.1rem;
+    opacity: 0.95;
+}
+
+.input-group label i {
+    margin-right: 8px;
+    color: var(--accent-color);
+}
+
+.help-text {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.result-section {
+    margin-top: 30px;
+    padding-top: 30px;
+    border-top: 1px solid var(--border-color);
+    animation: slideDown 0.4s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.result-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--accent-color);
+    font-weight: 600;
+    margin-bottom: 15px;
+    font-size: 1.1rem;
+}
+
+.result-header i { font-size: 1.25rem; }
+
+.generated-link {
+    margin-bottom: 20px;
+}
+
+.generated-link input {
+    background: var(--bg-color);
+}
+
+.action-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.copy-message {
+    margin-top: 15px;
+    padding: 12px;
+    background: #dcfce7; /* Green-100 */
+    color: #166534; /* Green-800 */
+    border: 1px solid #bbf7d0; /* Green-200 */
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 500;
+    animation: fadeIn 0.3s ease;
+}
+
+.copy-message i { margin-right: 8px; }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Let info-section use the .card styles */
+.info-section {
+    margin-top: 20px;
+    padding: 30px;
+}
+
+.info-section h3 {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info-section h3 i {
+    color: var(--accent-color);
+}
+
+.info-section ol {
+    margin-left: 20px;
+    color: var(--text-secondary);
+    line-height: 1.8;
+}
+
+.info-section li { margin-bottom: 8px; }
+
+footer {
+    text-align: center;
+    color: white; /* White text on shared body background */
+    padding: 20px;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* History Section */
+.history-section {
+    margin-top: 15px;
+    animation: fadeIn 0.3s ease;
+}
+
+.history-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.history-label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.history-label i { color: var(--accent-color); }
+
+.clear-history-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    transition: all 0.2s ease;
+}
+
+.clear-history-btn:hover { color: var(--btn-danger-bg); } /* Red */
+.clear-history-btn i { font-size: 12px; }
+
+.history-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.history-btn {
+    padding: 6px 12px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    font-size: 13px;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.history-btn:hover {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+/* Toast Notification */
+.toast-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+}
+
+.toast-notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-notification i {
+    font-size: 1.2rem;
+}
+
+.toast-success {
+    background: var(--accent-color);
+    color: white;
+}
+
+.toast-error {
+    background: #ef4444;
+    color: white;
+}
+
+.toast-warning {
+    background: #f59e0b;
+    color: white;
+}
+
+.toast-info {
+    background: #3b82f6;
+    color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .toast-notification {
+        right: 10px;
+        left: 10px;
+        top: 10px;
+    }
+}

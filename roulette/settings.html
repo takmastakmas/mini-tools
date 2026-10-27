@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>順番設定 - ルーレット</title>
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="css/settings.css">
+</head>
+<body>
+    <div class="container settings-container">
+        <header>
+            <h1>⚙️ 順番設定</h1>
+            <p class="subtitle">番号を指定した参加者は必ずその番号になります</p>
+        </header>
+        <main>
+            <div id="staleWarning" class="stale-warning hidden">
+                ⚠ 参加者リストが変更されました。番号設定を確認してください。
+            </div>
+
+            <div id="emptyState" class="empty-state hidden">
+                参加者が入力されていません。メイン画面で名前を入力してください。
+            </div>
+
+            <div id="assignmentList" class="assignment-list"></div>
+
+            <div class="settings-actions">
+                <button id="saveBtn" class="btn btn-primary">💾 保存</button>
+                <button id="resetBtn" class="btn btn-secondary">🗑 リセット</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- 共通ユーティリティ -->
+    <script src="../js/utils.js"></script>
+    <!-- 設定画面のロジック -->
+    <script src="js/settings.js"></script>
+</body>
+</html>

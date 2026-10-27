@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amazon URL クリーナー</title>
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔗 Amazon URL クリーナー</h1>
+            <p class="subtitle">長いAmazonリンクをシンプルなURLに変換</p>
+        </header>
+
+        <main>
+            <div class="card">
+                <div class="input-section">
+                    <label for="amazonUrl">Amazon商品リンクを貼り付け</label>
+                    <textarea 
+                        id="amazonUrl" 
+                        placeholder="例: https://www.amazon.co.jp/dp/B08X6PQXX8/ref=sr_1_1?keywords=..."
+                        rows="4"
+                    ></textarea>
+                    <button id="convertBtn" class="btn btn-primary">変換する</button>
+                </div>
+
+                <div id="resultSection" class="result-section hidden">
+                    <label>変換後のシンプルURL</label>
+                    <div class="result-box">
+                        <input 
+                            type="text" 
+                            id="cleanUrl" 
+                            readonly
+                        >
+                        <button id="copyBtn" class="btn btn-copy" title="コピー">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            コピー
+                        </button>
+                    </div>
+                    <div id="copyMessage" class="copy-message hidden">✓ コピーしました！</div>
+                </div>
+
+                <div id="errorSection" class="error-section hidden">
+                    <p id="errorMessage"></p>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <h3>使い方</h3>
+                <ol>
+                    <li>Amazonの商品ページから長いURLをコピー</li>
+                    <li>上のテキストエリアに貼り付け</li>
+                    <li>「変換する」ボタンをクリック</li>
+                    <li>シンプルなURLが表示されるので「コピー」ボタンでクリップボードにコピー</li>
+                </ol>
+                
+                <h3>対応URL例</h3>
+                <ul>
+                    <li>amazon.co.jp (日本)</li>
+                    <li>amazon.com (アメリカ)</li>
+                    <li>amazon.de, amazon.fr, amazon.co.uk など</li>
+                </ul>
+
+                <div class="example">
+                    <p><strong>変換前:</strong></p>
+                    <code>https://www.amazon.co.jp/dp/B08X6PQXX8/ref=sr_1_1?keywords=...</code>
+                    <p><strong>変換後:</strong></p>
+                    <code>https://www.amazon.co.jp/dp/B08X6PQXX8</code>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>トラッキングパラメータとアフィリエイトタグを削除して、クリーンなURLを生成します</p>
+        </footer>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/utils.js"></script>
+    <script src="js/cleaner.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カウントダウンタイマー</title>
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 実行画面（常時表示） -->
+    <div id="timer-screen" class="screen active">
+        <button id="close-button" class="settings-btn">閉じる</button>
+
+        <div class="timer-container">
+            <div class="current-time">
+                <span class="time-label">現在時刻</span>
+                <span id="current-time-display">--:--</span>
+            </div>
+
+            <div class="countdown-display">
+                <div id="countdown-content">
+                    <span class="label">残り</span>
+                    <span class="number">--</span>
+                    <span class="unit">分</span>
+                </div>
+            </div>
+
+            <div class="end-time">
+                <span class="time-label">終了予定</span>
+                <span id="end-time-display">--:--</span>
+            </div>
+        </div>
+
+        <div class="pause-control">
+            <button id="pause-button" class="pause-btn">一時停止</button>
+        </div>
+    </div>
+
+    <!-- 白いオーバーレイ -->
+    <div id="white-overlay" class="white-overlay"></div>
+
+    <!-- Scripts -->
+    <script src="../js/utils.js"></script>
+    <script src="js/display.js"></script>
+</body>
+</html>

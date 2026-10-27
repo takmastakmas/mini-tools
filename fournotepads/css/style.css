@@ -1,0 +1,95 @@
+/* fournotepads/css/style.css */
+/* App-specific styles */
+
+/* The main container needs to be wider for the grid layout */
+.container {
+    max-width: 1400px;
+}
+
+.memo-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+/* Use the shared .card style as a base */
+.memo-box {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding: 20px; /* Override padding for a more compact look */
+    margin-bottom: 0; /* Remove margin from shared .card style */
+}
+
+/* Let the shared card style handle the hover effect */
+.memo-box:hover {
+    transform: translateY(-5px); /* from shared */
+}
+
+.memo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.memo-header h2 {
+    font-size: 1.3rem;
+    color: var(--text-primary);
+}
+
+.char-count {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    background: var(--bg-color);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-weight: 500;
+}
+
+/* The textarea inherits from shared.css, just need to set min-height */
+.memo-textarea {
+    min-height: 200px;
+    margin-bottom: 15px;
+}
+
+.memo-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.memo-actions .btn {
+    flex: 1; /* Make buttons take equal width */
+}
+
+.toast {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    z-index: 10;
+}
+
+.toast.show {
+    opacity: 1;
+}
+
+/* App-specific responsive design */
+@media (max-width: 768px) {
+    .memo-grid {
+        grid-template-columns: 1fr;
+    }
+    .memo-textarea {
+        min-height: 150px;
+    }
+}

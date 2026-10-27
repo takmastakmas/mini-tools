@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>カウントダウンタイマー</title>
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <!-- 設定画面 -->
+    <div id="setup-screen" class="screen active">
+        <div class="setup-container">
+            <h1>カウントダウンタイマー</h1>
+            
+            <div class="mode-selection">
+                <h2>設定方法を選択</h2>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="mode" value="endtime" checked>
+                        <span>終了時刻を指定</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="mode" value="duration">
+                        <span>分数を指定</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="input-section">
+                <div id="endtime-input" class="input-group active">
+                    <label for="end-time">終了時刻</label>
+                    <input type="time" id="end-time" required>
+                </div>
+
+                <div id="duration-input" class="input-group">
+                    <label>時間を指定</label>
+                    <div class="time-inputs">
+                        <div class="time-input-group">
+                            <input type="number" id="minutes" min="0" max="999" placeholder="0" value="5">
+                            <span class="time-unit">分</span>
+                        </div>
+                        <div class="time-input-group">
+                            <input type="number" id="seconds" min="0" max="59" placeholder="00" value="0">
+                            <span class="time-unit">秒</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="color-section">
+                <h2>画面色を選択</h2>
+                <div class="color-mode-buttons">
+                    <button type="button" class="color-mode-btn active" data-mode="light">ライト</button>
+                    <button type="button" class="color-mode-btn" data-mode="dark">ダーク</button>
+                    <button type="button" class="color-mode-btn" data-mode="custom">カスタム</button>
+                </div>
+
+                <div id="custom-color-input" class="custom-color-group">
+                    <div class="color-picker-group">
+                        <label for="bg-color">背景色</label>
+                        <input type="color" id="bg-color" value="#ffffff">
+                    </div>
+                    <div class="color-picker-group">
+                        <label for="text-color">文字色</label>
+                        <input type="color" id="text-color" value="#000000">
+                    </div>
+                </div>
+            </div>
+
+            <button id="start-button" class="start-btn btn btn-primary">開始</button>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/utils.js"></script>
+    <script src="js/timer.js"></script>
+</body>
+</html>

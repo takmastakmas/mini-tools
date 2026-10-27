@@ -1,0 +1,354 @@
+/* countdowntimer/css/style.css */
+/* App-specific styles */
+
+/* --- Screen Management --- */
+.screen {
+    display: none;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.screen.active {
+    display: flex;
+}
+
+/* --- Setup Screen --- */
+/* The body style from shared.css will provide the background */
+#setup-screen {
+    justify-content: center;
+    align-items: center;
+}
+
+/* Use .card styles from shared.css and add specific styles */
+.setup-container {
+    max-width: 500px;
+    width: 100%;
+}
+
+.setup-container h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 30px;
+}
+
+.mode-selection h2, .color-section h2 {
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.radio-label {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    background: var(--bg-color);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid var(--border-color);
+}
+
+.radio-label:hover {
+    background: #eef2ff; /* Light accent */
+}
+
+.radio-label input[type="radio"] {
+    margin-right: 12px;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--accent-color);
+}
+
+.radio-label input[type="radio"]:checked + span {
+    font-weight: 600;
+    color: var(--accent-color);
+}
+
+.radio-label:has(input:checked) {
+    background: #f0fff4; /* Light green */
+    border-color: var(--accent-color);
+}
+
+.input-section {
+    margin-bottom: 30px;
+}
+
+.input-group {
+    display: none;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-group.active {
+    display: flex;
+}
+
+/* Specific overrides for time inputs */
+.time-inputs {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.time-input-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.time-input-group input {
+    width: 80px;
+    text-align: center;
+}
+
+.time-unit {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+/* 終了時刻の入力欄を大きくする */
+#end-time {
+    font-size: 2rem;
+    padding: 20px;
+    text-align: center;
+    font-weight: 500;
+}
+
+/* Color selection section */
+.color-section {
+    margin-bottom: 30px;
+}
+
+.color-mode-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.color-mode-btn {
+    flex: 1;
+    padding: 10px 15px;
+    background: var(--surface-color);
+    color: var(--text-primary);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.color-mode-btn:hover {
+    background: #f1f5f9;
+}
+
+.color-mode-btn.active {
+    background: var(--accent-color);
+    color: white;
+    border-color: var(--accent-color);
+}
+
+.custom-color-group {
+    display: none;
+    gap: 20px;
+    padding: 20px;
+    background: var(--bg-color);
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+.custom-color-group.active {
+    display: flex;
+}
+
+.color-picker-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+}
+
+.color-picker-group input[type="color"] {
+    width: 100%;
+    height: 50px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* Make start button use shared styles */
+.start-btn {
+    width: 100%;
+}
+
+
+/* --- Timer Screen (largely unchanged) --- */
+#timer-screen {
+    background: white;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#timer-screen.flash {
+    animation: flashEffect 0.5s ease-out;
+}
+
+@keyframes flashEffect {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+#timer-screen.fade-to-white {
+    animation: fadeToWhite 2s ease-out forwards;
+}
+
+@keyframes fadeToWhite {
+    0% { opacity: 1; }
+    100% { background: white; opacity: 0; }
+}
+
+.white-overlay {
+    position: fixed;
+    inset: 0;
+    background: white;
+    z-index: 10000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 2s ease-out;
+}
+
+.white-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+#timer-screen.dark-mode {
+    background: #1a1a1a;
+}
+
+#timer-screen.dark-mode .time-label,
+#timer-screen.dark-mode #countdown-content .label,
+#timer-screen.dark-mode #countdown-content .unit {
+    color: #888;
+}
+
+#timer-screen.dark-mode #current-time-display,
+#timer-screen.dark-mode #end-time-display {
+    color: #ccc;
+}
+
+#timer-screen.dark-mode #countdown-content .number,
+#timer-screen.dark-mode #countdown-content .time {
+    color: #fff;
+}
+
+#timer-screen.dark-mode .settings-btn,
+#timer-screen.dark-mode .pause-btn {
+    color: #888;
+    border-color: #444;
+}
+
+.settings-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: transparent;
+    color: #ccc;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+}
+
+.settings-btn:hover {
+    opacity: 1;
+    color: #999;
+    border-color: #bbb;
+}
+
+.timer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.current-time .time-label, .end-time .time-label {
+    font-size: 1.5rem; color: #bbb; font-weight: 300;
+}
+
+#current-time-display, #end-time-display {
+    font-size: 2rem; color: #666; font-weight: 400;
+}
+
+#countdown-content {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+#countdown-content .label, #countdown-content .unit {
+    font-size: 2.5rem; color: #bbb; font-weight: 300;
+}
+
+#countdown-content .number {
+    font-size: 8rem; color: #222; font-weight: 700; line-height: 1;
+}
+
+#countdown-content .time {
+    font-size: 6rem; color: #222; font-weight: 700; line-height: 1;
+}
+
+.pause-control {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.pause-btn {
+    padding: 10px 20px;
+    background: transparent;
+    color: #ccc;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 0.5;
+    min-width: 100px;
+}
+
+.pause-btn:hover { opacity: 1; color: #999; border-color: #bbb; }
+.pause-btn.paused { background: rgba(22, 163, 74, 0.15); color: #16a34a; border-color: #16a34a; opacity: 0.8; }
+.pause-btn.paused:hover { opacity: 1; }
+
+/* Responsive adjustments for timer screen */
+@media (max-width: 768px) {
+    #countdown-content .number { font-size: 5rem; }
+    #countdown-content .time { font-size: 4rem; }
+}
+
+@media (max-width: 480px) {
+    #countdown-content .number { font-size: 4rem; }
+    #countdown-content .time { font-size: 3rem; }
+}

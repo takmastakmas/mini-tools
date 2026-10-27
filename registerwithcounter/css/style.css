@@ -1,0 +1,389 @@
+/* registerwithcounter/css/style.css */
+/* カウンター付き名簿アプリ - 独自スタイル */
+
+/* 
+ * アプリ固有のデザイン設定
+ * このアプリは大量のテーブル表示のため、containerの幅を拡大
+ */
+.container {
+    max-width: 1200px;
+}
+
+/* アニメーション */
+@keyframes countUp {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+
+.count-animation {
+    animation: countUp 0.3s ease-in-out;
+}
+
+/* テーブルスタイル */
+.counter-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--surface-color);
+    box-shadow: var(--shadow-sm);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.counter-table thead {
+    background: var(--accent-color);
+    color: white;
+}
+
+.counter-table th {
+    padding: 12px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    user-select: none;
+}
+
+.counter-table th.sortable:hover {
+    background-color: var(--accent-hover);
+}
+
+.counter-table tbody tr {
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.2s;
+}
+
+.counter-table tbody tr:hover {
+    background-color: #f9fafb;
+}
+
+.counter-table tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+.counter-table tbody tr:nth-child(even):hover {
+    background-color: #f1f5f9;
+}
+
+.counter-table td {
+    padding: 8px 12px;
+    text-align: center;
+}
+
+.counter-table input[type="text"] {
+    width: 100%;
+    padding: 6px 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    transition: border-color 0.2s;
+}
+
+.counter-table input[type="text"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+}
+
+/* カウンターボタングループ */
+.counter-group {
+    display: inline-flex;
+    gap: 4px;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 8px;
+}
+
+.counter-group-a {
+    background-color: #eff6ff;
+}
+
+.counter-group-b {
+    background-color: #f0fdf4;
+}
+
+/* カウンターボタン */
+.counter-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.counter-btn-main {
+    width: 56px;
+    height: 56px;
+    font-size: 1.5rem;
+}
+
+.counter-btn-a {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.counter-btn-a:hover {
+    background-color: #2563eb;
+    transform: scale(1.05);
+}
+
+.counter-btn-b {
+    background-color: #10b981;
+    color: white;
+}
+
+.counter-btn-b:hover {
+    background-color: #059669;
+    transform: scale(1.05);
+}
+
+.counter-btn-small {
+    width: 36px;
+    height: 36px;
+    font-size: 0.875rem;
+}
+
+.counter-btn-minus {
+    background-color: #f59e0b;
+    color: white;
+}
+
+.counter-btn-minus:hover {
+    background-color: #d97706;
+}
+
+.counter-btn-reset {
+    background-color: #6b7280;
+    color: white;
+}
+
+.counter-btn-reset:hover {
+    background-color: #4b5563;
+}
+
+.counter-btn-memo {
+    width: 40px;
+    height: 40px;
+    background-color: #e5e7eb;
+    color: #6b7280;
+}
+
+.counter-btn-memo:hover {
+    background-color: #d1d5db;
+}
+
+.counter-btn-memo.has-memo {
+    background-color: #fbbf24;
+    color: white;
+}
+
+.counter-btn-memo.has-memo:hover {
+    background-color: #f59e0b;
+}
+
+.counter-btn-delete {
+    width: 40px;
+    height: 40px;
+    background-color: #ef4444;
+    color: white;
+}
+
+.counter-btn-delete:hover {
+    background-color: #dc2626;
+}
+
+/* モーダルスタイル */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-content {
+    background: white;
+    border-radius: 12px;
+    box-shadow: var(--shadow-lg);
+    padding: 24px;
+    width: 90%;
+    max-width: 500px;
+    margin: 16px;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.modal-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.modal-close:hover {
+    background-color: #f3f4f6;
+    color: var(--text-primary);
+}
+
+.modal-footer {
+    display: flex;
+    gap: 12px;
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+/* コントロールボタン */
+.control-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.counter-name-input {
+    width: 140px !important;
+    padding: 6px 12px !important;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 0.875rem !important;
+    transition: border-color 0.2s;
+}
+
+.counter-name-input:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.1);
+}
+
+/* 空の状態 */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    color: #d1d5db;
+    margin-bottom: 16px;
+}
+
+.empty-text {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+/* 通知 */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: var(--accent-color);
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s;
+}
+
+.notification.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.notification-success {
+    background: var(--accent-color);
+}
+
+.notification-error {
+    background: #ef4444;
+}
+
+.notification-warning {
+    background: #f59e0b;
+}
+
+.notification-info {
+    background: #3b82f6;
+}
+
+/* チェックボックススタイル */
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--accent-color);
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+/* ボタングループ */
+.btn-group {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* ファイル入力を非表示 */
+input[type="file"] {
+    display: none;
+}
+
+/* ソートアイコン */
+.sort-icon {
+    font-size: 0.75rem;
+    margin-left: 4px;
+    opacity: 0.5;
+}
+
+.sort-icon.active {
+    opacity: 1;
+}
+
+/* ヘッダーサブタイトル */
+.subtitle {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-top: 8px;
+}

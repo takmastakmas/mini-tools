@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4分割メモ帳</title>
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 4分割メモ帳</h1>
+        </header>
+
+        <main class="memo-grid">
+            <!-- メモ帳 1 -->
+            <div class="memo-box">
+                <div class="memo-header">
+                    <h2>メモ 1</h2>
+                    <span class="char-count" id="count-1">0文字</span>
+                </div>
+                <textarea 
+                    class="memo-textarea" 
+                    id="memo-1" 
+                    placeholder="ここにテキストを入力..."
+                    rows="10"></textarea>
+                <div class="memo-actions">
+                    <button class="btn btn-primary" data-memo="1" data-action="copy">
+                        📋 コピー
+                    </button>
+                    <button class="btn btn-danger" data-memo="1" data-action="clear">
+                        🗑️ クリア
+                    </button>
+                </div>
+                <div class="toast" id="toast-1">コピーしました！</div>
+            </div>
+
+            <!-- メモ帳 2 -->
+            <div class="memo-box">
+                <div class="memo-header">
+                    <h2>メモ 2</h2>
+                    <span class="char-count" id="count-2">0文字</span>
+                </div>
+                <textarea 
+                    class="memo-textarea" 
+                    id="memo-2" 
+                    placeholder="ここにテキストを入力..."
+                    rows="10"></textarea>
+                <div class="memo-actions">
+                    <button class="btn btn-primary" data-memo="2" data-action="copy">
+                        📋 コピー
+                    </button>
+                    <button class="btn btn-danger" data-memo="2" data-action="clear">
+                        🗑️ クリア
+                    </button>
+                </div>
+                <div class="toast" id="toast-2">コピーしました！</div>
+            </div>
+
+            <!-- メモ帳 3 -->
+            <div class="memo-box">
+                <div class="memo-header">
+                    <h2>メモ 3</h2>
+                    <span class="char-count" id="count-3">0文字</span>
+                </div>
+                <textarea 
+                    class="memo-textarea" 
+                    id="memo-3" 
+                    placeholder="ここにテキストを入力..."
+                    rows="10"></textarea>
+                <div class="memo-actions">
+                    <button class="btn btn-primary" data-memo="3" data-action="copy">
+                        📋 コピー
+                    </button>
+                    <button class="btn btn-danger" data-memo="3" data-action="clear">
+                        🗑️ クリア
+                    </button>
+                </div>
+                <div class="toast" id="toast-3">コピーしました！</div>
+            </div>
+
+            <!-- メモ帳 4 -->
+            <div class="memo-box">
+                <div class="memo-header">
+                    <h2>メモ 4</h2>
+                    <span class="char-count" id="count-4">0文字</span>
+                </div>
+                <textarea 
+                    class="memo-textarea" 
+                    id="memo-4" 
+                    placeholder="ここにテキストを入力..."
+                    rows="10"></textarea>
+                <div class="memo-actions">
+                    <button class="btn btn-primary" data-memo="4" data-action="copy">
+                        📋 コピー
+                    </button>
+                    <button class="btn btn-danger" data-memo="4" data-action="clear">
+                        🗑️ クリア
+                    </button>
+                </div>
+                <div class="toast" id="toast-4">コピーしました！</div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="../js/utils.js"></script>
+    <script src="js/notepads.js"></script>
+</body>
+</html>

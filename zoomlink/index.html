@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zoom表示名設定済リンクジェネレーター</title>
+    <link rel="stylesheet" href="../css/shared.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-video"></i> Zoom表示名設定済リンクジェネレーター</h1>
+            <p class="subtitle">お好きな表示名でZoomミーティングに参加</p>
+        </header>
+
+        <div class="card">
+            <div class="input-group">
+                <label for="zoomUrl">
+                    <i class="fas fa-link"></i>
+                    Zoomミーティングのアドレス
+                </label>
+                <input 
+                    type="text" 
+                    id="zoomUrl" 
+                    placeholder="https://zoom.us/j/1234567890?pwd=xxxxx"
+                    autocomplete="off"
+                >
+                <small class="help-text">Zoomミーティングの招待リンクを貼り付けてください</small>
+            </div>
+
+            <div class="input-group">
+                <label for="displayName">
+                    <i class="fas fa-user"></i>
+                    表示名
+                </label>
+                <input 
+                    type="text" 
+                    id="displayName" 
+                    placeholder="山田太郎"
+                    autocomplete="off"
+                >
+                <small class="help-text">Zoomで表示したい名前を入力してください</small>
+                
+                <!-- 履歴ボタン -->
+                <div id="historySection" class="history-section" style="display: none;">
+                    <div class="history-header">
+                        <div class="history-label">
+                            <i class="fas fa-history"></i>
+                            履歴から選択
+                        </div>
+                        <button class="clear-history-btn" id="clearHistoryBtn">
+                            <i class="fas fa-trash-alt"></i>
+                            履歴をクリア
+                        </button>
+                    </div>
+                    <div id="historyButtons" class="history-buttons"></div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" id="generateBtn">
+                <i class="fas fa-magic"></i>
+                リンクを生成
+            </button>
+
+            <div id="resultSection" class="result-section" style="display: none;">
+                <div class="result-header">
+                    <i class="fas fa-check-circle"></i>
+                    <span>リンクが生成されました</span>
+                </div>
+                
+                <div class="generated-link">
+                    <input type="text" id="generatedLink" readonly>
+                </div>
+
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="copyBtn">
+                        <i class="fas fa-copy"></i>
+                        リンクをコピー
+                    </button>
+                    <button class="btn btn-info" id="joinBtn">
+                        <i class="fas fa-sign-in-alt"></i>
+                        すぐに入室
+                    </button>
+                </div>
+
+                <div id="copyMessage" class="copy-message" style="display: none;">
+                    <i class="fas fa-check"></i>
+                    クリップボードにコピーしました！
+                </div>
+            </div>
+        </div>
+
+        <div class="card info-section">
+            <h3><i class="fas fa-info-circle"></i> 使い方</h3>
+            <ol>
+                <li>Zoomミーティングの招待リンクを貼り付けます</li>
+                <li>表示したい名前を入力します</li>
+                <li>「リンクを生成」ボタンをクリックします</li>
+                <li>生成されたリンクをコピーするか、すぐに入室できます</li>
+            </ol>
+        </div>
+    </div>
+
+    <!-- 共通ユーティリティ -->
+    <script src="../js/utils.js"></script>
+    <!-- アプリのロジック -->
+    <script src="js/generator.js"></script>
+</body>
+</html>

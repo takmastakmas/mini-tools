@@ -1,0 +1,282 @@
+/* --- tools/css/shared.css --- */
+/* A modern, clean, shared stylesheet for all web apps. */
+/* Accent Color: Modern Green */
+
+:root {
+    --bg-color: #f8fafc; /* Light Gray */
+    --surface-color: #ffffff; /* White */
+    --text-primary: #1f2937; /* Dark Gray */
+    --text-secondary: #6b7280; /* Medium Gray */
+    --border-color: #e5e7eb; /* Light Gray */
+    
+    --accent-color: #10b981; /* A muted green */
+    --accent-hover: #059669; /* A slightly darker muted green for hover */
+    --accent-text: #ffffff;
+
+    --btn-danger-bg: #dc2626; /* A slightly desaturated red */
+    --btn-danger-hover: #b91c1c; /* Darker for hover */
+
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+/* --- General Resets & Body --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    line-height: 1.6;
+    padding: 20px;
+}
+
+/* --- Container --- */
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* --- Header --- */
+header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px 0;
+}
+
+header h1, .header h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 10px;
+}
+
+header .subtitle, .header .subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+/* --- Card --- */
+.card {
+    background: var(--surface-color);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: var(--shadow-md);
+    margin-bottom: 20px;
+}
+
+/* --- Forms --- */
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+textarea {
+    min-height: 150px;
+    resize: vertical;
+}
+
+/* --- Buttons --- */
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-primary {
+    background-color: var(--accent-color);
+    color: var(--accent-text);
+}
+
+.btn-primary:not(:disabled):hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(22, 163, 74, 0.2);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+}
+
+.btn-secondary {
+    background-color: var(--text-secondary);
+    color: var(--accent-text);
+}
+
+.btn-secondary:not(:disabled):hover {
+    background-color: #4b5563; /* Gray-600 */
+}
+
+.btn-danger {
+    background-color: #ef4444; /* Red-500 */
+    color: var(--accent-text);
+}
+
+.btn-danger:not(:disabled):hover {
+    background-color: #dc2626; /* Red-600 */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+}
+
+.btn-success {
+    background-color: #10b981; /* Green-500 */
+    color: var(--accent-text);
+}
+
+.btn-success:not(:disabled):hover {
+    background-color: #059669; /* Green-600 */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.2);
+}
+
+.btn-info {
+    background-color: #3b82f6; /* Blue-500 */
+    color: var(--accent-text);
+}
+
+.btn-info:not(:disabled):hover {
+    background-color: #2563eb; /* Blue-600 */
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.2);
+}
+
+.btn-default {
+    background-color: #f3f4f6; /* Gray-100 */
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.btn-default:not(:disabled):hover {
+    background-color: #e5e7eb; /* Gray-200 */
+}
+
+
+/* --- Utility Classes --- */
+.hidden {
+    display: none !important;
+}
+
+.text-center {
+    text-align: center;
+}
+
+/* --- Toast Notification --- */
+.toast {
+    position: fixed;
+    bottom: -100px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4b5563; /* Modern Gray-600 */
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-lg);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 1rem;
+    font-weight: 500;
+    transition: bottom 0.3s ease;
+    max-width: 400px;
+    min-width: 250px;
+}
+
+.toast.show {
+    bottom: 30px;
+}
+
+.toast-icon {
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.toast-success {
+    background-color: var(--accent-color);
+}
+
+.toast-error {
+    background-color: var(--btn-danger-bg);
+}
+
+.toast-warning {
+    background-color: #f59e0b; /* Amber-500 */
+}
+
+.toast-info {
+    background-color: #ffffff; /* White */
+    color: var(--text-primary);
+    border: 1px solid var(--border-color);
+}
+
+.toast-info .toast-icon {
+    background-color: #3b82f6;
+    color: white;
+}
+
+/* --- Responsive --- */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    .card {
+        padding: 20px;
+    }
+    header h1, .header h1 {
+        font-size: 1.8rem;
+    }
+}

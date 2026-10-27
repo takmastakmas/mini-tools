@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>iPad Apps</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>iPad Apps</h1>
+            <p>古いiPadを何とかして使うための、常時フルスクリーン表示に最適化されたwebアプリ集です。</p>
+        </header>
+
+        <main>
+            <section id="ipad-apps">
+                <div class="card-grid">
+                    <!-- iPad Apps will be injected here -->
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 taktak apps</p>
+        </footer>
+    </div>
+    <script>
+        /* ES5 互換コード - 初代iPadやiOS 5-9デバイスでも動作 */
+        var ipadApps = [
+          { name: '12 Hour Clock', description: 'シンプルな12時間表示のアナログ風時計。', path: '12hourclock/' },
+          { name: '12 Hour Clock v2', description: 'アイコンで午前/午後を表示する12時間時計。', path: '12hourclock2/' },
+          { name: '24 Hour Clock', description: 'シンプルな24時間表示のデジタル時計。', path: '24hourclock/' },
+          { name: 'API Clock', description: 'WorldTimeAPIと同期する正確な24時間時計。', path: 'apiclock/' },
+          { name: 'Chrono Panel 1', description: '計器盤風のアナログ＆デジタル時計。', path: 'chrono1/' },
+          { name: 'Chrono Panel 2', description: '秒針サブダイヤル付きのクロノグラフ風時計。', path: 'chrono2/' },
+          { name: 'Chrono Panel 3', description: '洗練されたUIのクロノグラフ風タイムダッシュボード。', path: 'chrono3/' },
+          { name: 'Date Display', description: '年月日（曜日）を大きく表示するシンプルなアプリ。', path: 'date/' },
+          { name: '1440 Tiles Clock', description: '1日の1440分をタイルで可視化する時計。', path: 'tileclock/' },
+          { name: '1440 Tiles Clock v2', description: 'スタイルを微調整したタイル時計の別バージョン。', path: 'tileclock2/' }
+        ];
+
+        function createCard(app) {
+            var card = document.createElement('a');
+            /* Path is relative from tools/ipad/ */
+            card.href = app.path + 'index.html';
+            card.className = 'card';
+            card.target = '_blank'; /* Open in new tab */
+            card.rel = 'noopener noreferrer';
+
+            /* テンプレートリテラルの代わりに文字列連結を使用 */
+            card.innerHTML = '<h3>' + app.name + '</h3><p>' + app.description + '</p>';
+            return card;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var container = document.querySelector('#ipad-apps .card-grid');
+            ipadApps.forEach(function(app) {
+                container.appendChild(createCard(app));
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+/* 
+ * iPad Clock Apps - Legacy Compatible Style Sheet
+ * 元のデザインを維持しながら初代iPad（iOS 5.1.1）および古いiPhone対応
+ * Grid Layout → Float/Inline-block | Flexbox → Display block
+ */
+
+/* リセット */
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+/* ボディ - 元のグラデーション背景を維持 */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', Meiryo, sans-serif;
+    background: #c3cfe2; /* フォールバック */
+    background: -webkit-gradient(linear, left top, right bottom, from(#f5f7fa), to(#c3cfe2));
+    background: -webkit-linear-gradient(315deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: -moz-linear-gradient(315deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: -o-linear-gradient(315deg, #f5f7fa 0%, #c3cfe2 100%);
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background-attachment: fixed;
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+/* コンテナ */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* ヘッダー - 元のスタイルを維持 */
+header {
+    text-align: center;
+    padding: 40px 0;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-size: 40px; /* remが使えない場合のフォールバック */
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.1rem;
+    font-size: 18px;
+    color: #4a5568;
+}
+
+/* メインセクション */
+main section {
+    margin-bottom: 40px;
+}
+
+main h2 {
+    font-size: 2rem;
+    font-size: 32px;
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+/* カードグリッド - Grid LayoutをFloatベースに変換 */
+.card-grid {
+    /* Clearfix */
+    zoom: 1;
+    margin: 0 -10px; /* カード間のギャップを作るための負のマージン */
+}
+
+.card-grid:before,
+.card-grid:after {
+    content: "";
+    display: table;
+}
+
+.card-grid:after {
+    clear: both;
+}
+
+/* カード - 元のデザインを維持 */
+.card {
+    float: left;
+    width: 100%;
+    width: -webkit-calc(33.333% - 20px);
+    width: -moz-calc(33.333% - 20px);
+    width: calc(33.333% - 20px);
+    margin: 0 10px 20px 10px;
+    background: white;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    -webkit-box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    -moz-box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    -webkit-transition: -webkit-transform 0.3s ease, -webkit-box-shadow 0.3s ease;
+    -moz-transition: -moz-transform 0.3s ease, -moz-box-shadow 0.3s ease;
+    -o-transition: -o-transform 0.3s ease, box-shadow 0.3s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    -webkit-transform: translateY(-5px);
+    -moz-transform: translateY(-5px);
+    -ms-transform: translateY(-5px);
+    -o-transform: translateY(-5px);
+    transform: translateY(-5px);
+    -webkit-box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    -moz-box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.card h3 {
+    font-size: 1.25rem;
+    font-size: 20px;
+    font-weight: 600;
+    color: #2c5282;
+    margin-bottom: 10px;
+}
+
+.card p {
+    font-size: 0.95rem;
+    font-size: 15px;
+    color: #4a5568;
+}
+
+/* フッター */
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    color: #718096;
+    font-size: 0.9rem;
+    font-size: 14px;
+    clear: both;
+}
+
+/* タブレット向け（iPad含む）- 2列レイアウト */
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+    .card {
+        width: 48%;
+        width: -webkit-calc(50% - 20px);
+        width: -moz-calc(50% - 20px);
+        width: calc(50% - 20px);
+    }
+}
+
+/* スマートフォン・小型タブレット向け（768px以下）- 1列レイアウト */
+@media screen and (max-width: 768px) {
+    .card {
+        float: none;
+        width: 100%;
+        width: -webkit-calc(100% - 20px);
+        width: -moz-calc(100% - 20px);
+        width: calc(100% - 20px);
+        margin: 0 10px 20px 10px;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+        font-size: 32px;
+    }
+    
+    main h2 {
+        font-size: 1.75rem;
+        font-size: 28px;
+    }
+}
+
+/* 小さい画面（古いiPhone）向けさらなる調整 */
+@media screen and (max-width: 480px) {
+    .container {
+        padding: 15px;
+    }
+    
+    header {
+        padding: 30px 0;
+    }
+    
+    header h1 {
+        font-size: 1.75rem;
+        font-size: 28px;
+    }
+    
+    header p {
+        font-size: 1rem;
+        font-size: 16px;
+    }
+    
+    .card {
+        padding: 20px;
+        margin: 0 5px 15px 5px;
+    }
+    
+    .card-grid {
+        margin: 0 -5px;
+    }
+}
+
+/* iOS 5-6 互換性対策 */
+a {
+    -webkit-tap-highlight-color: rgba(44, 82, 130, 0.3);
+}
+
+/* アンチエイリアシング */
+body, h1, h2, h3, p {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* 古いWebKitブラウザ向けのグラデーション互換性 */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+    body {
+        background: -webkit-gradient(linear, left top, right bottom, 
+            color-stop(0%, #f5f7fa), 
+            color-stop(100%, #c3cfe2));
+    }
+}
