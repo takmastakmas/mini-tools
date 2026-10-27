@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>日付</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      font-family: -apple-system, Helvetica, Arial, sans-serif;
+    }
+    .wrap {
+      height: 100%;
+      width: 100%;
+      display: table;
+    }
+    .cell {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+    #date {
+      font-size: 96px;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      padding: 0 12px;
+    }
+    @media (max-width: 800px) {
+      #date { font-size: 72px; }
+    }
+    @media (max-width: 600px) {
+      #date { font-size: 56px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="cell">
+      <div id="date">--月--日（-）</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var WEEK = ["日", "月", "火", "水", "木", "金", "土"]; // 日〜土
+      var SHOW_YEAR = false; // trueにすると「2025年12月31日（水）」形式
+
+      function pad2(n) {
+        return (n < 10) ? ("0" + n) : ("" + n);
+      }
+
+      function render() {
+        var now = new Date();
+        var y = now.getFullYear();
+        var m = now.getMonth() + 1;
+        var d = now.getDate();
+        var w = WEEK[now.getDay()];
+
+        var text;
+        if (SHOW_YEAR) {
+          text = y + "年" + m + "月" + d + "日（" + w + "）";
+        } else {
+          text = m + "月" + d + "日（" + w + "）";
+        }
+
+        var el = document.getElementById("date");
+        if (el) el.innerHTML = text;
+      }
+
+      // 初回表示
+      render();
+
+      // 分単位で更新（0時跨ぎにも対応）
+      setInterval(render, 60 * 1000);
+    })();
+  </script>
+</body>
+</html>

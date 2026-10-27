@@ -1,0 +1,100 @@
+/* 初代iPad Safari対応 - 古いCSS構文のみ使用 */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", Meiryo, メイリオ, sans-serif;
+    background: #000000;
+    color: #ffffff;
+    display: table;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    text-align: center;
+}
+
+#clock-container {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 20px;
+}
+
+#period-container {
+    margin-bottom: 20px;
+}
+
+#period-icon {
+    font-size: 80px;
+    margin-right: 20px;
+}
+
+#period-text {
+    font-size: 60px;
+    color: #ffffff;
+    vertical-align: middle;
+}
+
+#time {
+    font-size: 240px;
+    font-weight: bold;
+    color: #ffffff;
+    margin-bottom: 20px;
+    letter-spacing: 15px;
+}
+
+#date {
+    font-size: 40px;
+    color: #ffffff;
+    letter-spacing: 4px;
+}
+
+/* iPad縦向き対応 */
+@media screen and (max-width: 768px) {
+    #period-icon {
+        font-size: 60px;
+        margin-right: 15px;
+    }
+    
+    #period-text {
+        font-size: 45px;
+    }
+    
+    #time {
+        font-size: 180px;
+        letter-spacing: 12px;
+    }
+    
+    #date {
+        font-size: 24px;
+    }
+}
+
+/* iPad横向き対応 */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+    #period-icon {
+        font-size: 70px;
+        margin-right: 18px;
+    }
+    
+    #period-text {
+        font-size: 52px;
+    }
+    
+    #time {
+        font-size: 210px;
+        letter-spacing: 12px;
+    }
+    
+    #date {
+        font-size: 40px;
+    }
+    
+    #clock-container {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+}

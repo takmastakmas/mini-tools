@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no" />
+  <title>1440 Tiles Clock</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+      font-family: -apple-system, Helvetica, Arial, sans-serif;
+    }
+
+    #bg {
+      position: fixed;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    #clockWrap {
+      position: fixed;
+      inset: 0;
+      display: table;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+    }
+
+    #clockCell {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    #clock {
+      display: inline-block;
+      color: #fff;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      font-size: 56px;
+      line-height: 1;
+      padding: 18px 22px;
+      background: rgba(0,0,0,0.55);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 14px;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.85);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    @media (max-width: 768px) {
+      #clock { font-size: 44px; padding: 16px 18px; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="bg"></canvas>
+
+  <div id="clockWrap" aria-hidden="true">
+    <div id="clockCell">
+      <div id="clock"></div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var canvas = document.getElementById('bg');
+      var ctx = canvas.getContext('2d');
+      var clockEl = document.getElementById('clock');
+
+      // 24時間 x 60分 = 1440
+      var COLS = 60;
+      var ROWS = 24;
+
+      var lastMinute = -1;
+      var geom = { cell: 8, x0: 0, y0: 0, w: 0, h: 0 };
+
+      function pad2(n) {
+        return (n < 10 ? '0' : '') + n;
+      }
+
+      function format12h(d) {
+        var h = d.getHours();
+        var m = d.getMinutes();
+        var ampm = (h >= 12) ? 'PM' : 'AM';
+        h = h % 12;
+        if (h === 0) h = 12;
+        return h + ':' + pad2(m) + ' ' + ampm;
+      }
+
+      function minutesSinceMidnight(d) {
+        return d.getHours() * 60 + d.getMinutes();
+      }
+
+      function resize() {
+        var dpr = window.devicePixelRatio || 1;
+        var w = window.innerWidth || document.documentElement.clientWidth;
+        var h = window.innerHeight || document.documentElement.clientHeight;
+
+        canvas.width = Math.floor(w * dpr);
+        canvas.height = Math.floor(h * dpr);
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+
+        // CSSピクセル座標で描画
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+        // 60x24 が画面内に収まる最大の正方タイル
+        var cell = Math.floor(Math.min(w / COLS, h / ROWS));
+        if (cell < 3) cell = 3;
+
+        var gridW = cell * COLS;
+        var gridH = cell * ROWS;
+
+        geom.cell = cell;
+        geom.w = gridW;
+        geom.h = gridH;
+        geom.x0 = Math.floor((w - gridW) / 2);
+        geom.y0 = Math.floor((h - gridH) / 2);
+
+        draw();
+      }
+
+      function draw() {
+        var now = new Date();
+        var elapsed = minutesSinceMidnight(now);
+
+        // 背景は常に黒
+        var w = window.innerWidth || document.documentElement.clientWidth;
+        var h = window.innerHeight || document.documentElement.clientHeight;
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#000';
+        ctx.fillRect(0, 0, w, h);
+
+        // 視認性調整：塗りはかなり薄く、枠は少し濃く
+        var fill = 'rgba(255,255,255,0.08)';
+        var stroke = 'rgba(255,255,255,0.22)';
+
+        var cell = geom.cell;
+        var x0 = geom.x0;
+        var y0 = geom.y0;
+
+        ctx.lineWidth = 1;
+
+        // 1440個を描画（1分更新で十分軽い）
+        var idx = 0;
+        for (var r = 0; r < ROWS; r++) {
+          var y = y0 + r * cell;
+          for (var c = 0; c < COLS; c++) {
+            var x = x0 + c * cell;
+
+            if (idx < elapsed) {
+              // □（塗りなし）
+              ctx.strokeStyle = stroke;
+              // 0.5 ずらしで線をシャープに
+              ctx.strokeRect(x + 0.5, y + 0.5, cell - 1, cell - 1);
+            } else {
+              // ■（塗り）
+              ctx.fillStyle = fill;
+              ctx.fillRect(x, y, cell, cell);
+            }
+
+            idx++;
+          }
+        }
+
+        // 時計表示（12時間・秒なし）
+        clockEl.textContent = format12h(now);
+      }
+
+      function scheduleNextTick() {
+        var now = new Date();
+        var ms = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+        if (ms < 50) ms = 50;
+        setTimeout(tick, ms + 10);
+      }
+
+      function tick() {
+        var now = new Date();
+        var m = minutesSinceMidnight(now);
+        if (m !== lastMinute) {
+          lastMinute = m;
+          draw();
+        } else {
+          // 念のため表示だけ更新（通常は不要だが環境差吸収）
+          clockEl.textContent = format12h(now);
+        }
+        scheduleNextTick();
+      }
+
+      // iPad 1 でも動く範囲のイベントだけ使う
+      window.addEventListener('resize', resize, false);
+      document.addEventListener('visibilitychange', function () {
+        if (!document.hidden) {
+          lastMinute = -1;
+          draw();
+        }
+      }, false);
+
+      resize();
+      lastMinute = minutesSinceMidnight(new Date());
+      scheduleNextTick();
+    })();
+  </script>
+</body>
+</html>

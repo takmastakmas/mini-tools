@@ -1,0 +1,693 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>Chrono Panel</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      font-family: -apple-system, Helvetica, Arial, sans-serif;
+    }
+
+    /* 背景：計器盤っぽい質感 */
+    #bg {
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background:
+        -webkit-radial-gradient(35% 40%, rgba(255,255,255,0.10), rgba(0,0,0,0) 55%),
+        -webkit-radial-gradient(70% 65%, rgba(255,255,255,0.06), rgba(0,0,0,0) 60%),
+        -webkit-linear-gradient(#0b0f14, #000);
+      z-index: 0;
+    }
+
+    .grain {
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      opacity: 0.10;
+      background-image: -webkit-linear-gradient(rgba(255,255,255,0.10) 1px, rgba(0,0,0,0) 1px);
+      background-size: 100% 7px;
+    }
+
+    .vignette {
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background: -webkit-radial-gradient(center, rgba(0,0,0,0) 0%, rgba(0,0,0,0.40) 60%, rgba(0,0,0,0.85) 100%);
+      opacity: 0.9;
+    }
+
+    #frame {
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      z-index: 2;
+    }
+
+    /* 左：メインダイヤル */
+    #dial {
+      position: absolute;
+      left: 44px;
+      top: 50%;
+      width: 520px;
+      height: 520px;
+      -webkit-transform: translate(0, -50%);
+      transform: translate(0, -50%);
+      border-radius: 50%;
+      background:
+        -webkit-radial-gradient(center, rgba(255,255,255,0.10), rgba(0,0,0,0) 60%),
+        -webkit-linear-gradient(rgba(255,255,255,0.06), rgba(255,255,255,0.00));
+      box-shadow:
+        0 18px 48px rgba(0,0,0,0.70),
+        inset 0 0 0 10px rgba(255,255,255,0.06),
+        inset 0 0 0 2px rgba(255,255,255,0.18);
+    }
+
+    /* ベゼル */
+    #dial .bezel {
+      position: absolute;
+      left: -10px; top: -10px; right: -10px; bottom: -10px;
+      border-radius: 50%;
+      box-shadow:
+        inset 0 0 0 2px rgba(255,255,255,0.18),
+        inset 0 0 0 18px rgba(0,0,0,0.62);
+    }
+
+    /* ダイヤル中心クロス */
+    #dial .crossV, #dial .crossH {
+      position: absolute;
+      opacity: 0.10;
+      background: rgba(255,255,255,0.65);
+      z-index: 1;
+    }
+    #dial .crossV { width: 1px; left: 50%; top: 34px; bottom: 34px; }
+    #dial .crossH { height: 1px; top: 50%; left: 34px; right: 34px; }
+
+    /* 外周の目盛り（JSで生成） */
+    #tickRing {
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .tick {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 2px;
+      background: rgba(255,255,255,0.26);
+      margin-left: -1px;
+      box-shadow: 0 0 10px rgba(255,255,255,0.08);
+      -webkit-transform-origin: 50% 100%;
+      transform-origin: 50% 100%;
+    }
+    .tick.major {
+      width: 3px;
+      margin-left: -1.5px;
+      background: rgba(255,255,255,0.52);
+    }
+
+    /* 針（時分） */
+    #hands {
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hand {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      background: rgba(255,255,255,0.90);
+      -webkit-transform-origin: 50% 100%;
+      transform-origin: 50% 100%;
+      box-shadow: 0 0 14px rgba(255,255,255,0.10);
+      border-radius: 2px;
+    }
+    .hand.hour {
+      background: rgba(255,255,255,0.82);
+      border-radius: 3px;
+    }
+    .hand.minute {
+      background: rgba(255,255,255,0.92);
+    }
+
+    .hub {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 12px;
+      height: 12px;
+      margin-left: -6px;
+      margin-top: -6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.88);
+      box-shadow: 0 0 14px rgba(255,255,255,0.12);
+      opacity: 0.95;
+    }
+
+    /* クロノグラフ風：サブダイヤル（秒針） */
+    #sub {
+      position: absolute;
+      left: 50%;
+      top: 78%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      background: rgba(0,0,0,0.35);
+      box-shadow:
+        inset 0 0 0 2px rgba(255,255,255,0.18),
+        inset 0 0 0 10px rgba(255,255,255,0.04);
+      z-index: 2;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    #subTicks {
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      pointer-events: none;
+      opacity: 0.75;
+    }
+
+    .sTick {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 2px;
+      margin-left: -1px;
+      background: rgba(255,255,255,0.22);
+      -webkit-transform-origin: 50% 100%;
+      transform-origin: 50% 100%;
+    }
+    .sTick.major {
+      width: 3px;
+      margin-left: -1.5px;
+      background: rgba(255,255,255,0.38);
+    }
+
+    #sHand {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 2px;
+      background: rgba(255,255,255,0.92);
+      -webkit-transform-origin: 50% 100%;
+      transform-origin: 50% 100%;
+      box-shadow: 0 0 10px rgba(255,255,255,0.12);
+      border-radius: 2px;
+    }
+
+    #sHub {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      width: 10px;
+      height: 10px;
+      margin-left: -5px;
+      margin-top: -5px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.85);
+      box-shadow: 0 0 10px rgba(255,255,255,0.12);
+      opacity: 0.9;
+    }
+
+    /* メイン表示（中央） */
+    #readout {
+      position: absolute;
+      left: 50%;
+      top: 46%;
+      -webkit-transform: translate(-50%, -50%);
+      transform: translate(-50%, -50%);
+      text-align: center;
+      width: 86%;
+      z-index: 3;
+    }
+
+    #time {
+      font-size: 80px;
+      letter-spacing: 0.02em;
+      line-height: 1.0;
+      text-shadow:
+        0 2px 0 rgba(0,0,0,0.65),
+        0 0 10px rgba(255,255,255,0.08);
+      white-space: nowrap;
+    }
+
+    #time .ampm {
+      font-size: 28px;
+      opacity: 0.75;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    #time .digits {
+      font-size: 80px;
+      font-weight: 300;
+      letter-spacing: 0.05em;
+    }
+
+    #date {
+      margin-top: 12px;
+      font-size: 25px;
+      letter-spacing: 0.14em;
+      opacity: 0.85;
+      white-space: nowrap;
+    }
+
+    /* 右：プログレス群 */
+    #right {
+      position: absolute;
+      right: 44px;
+      top: 54px;
+      width: 400px;
+      bottom: 54px;
+    }
+
+    #panelTitle {
+      font-size: 14px;
+      letter-spacing: 0.28em;
+      opacity: 0.70;
+      margin-bottom: 18px;
+      text-transform: uppercase;
+    }
+
+    .gauge {
+      position: relative;
+      margin-bottom: 22px;
+      padding: 18px 18px 16px 18px;
+      border: 1px solid rgba(255,255,255,0.16);
+      background: rgba(0,0,0,0.25);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.05);
+    }
+
+    .gHead {
+      font-size: 16px;
+      letter-spacing: 0.18em;
+      opacity: 0.92;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      white-space: nowrap;
+    }
+
+    .bar {
+      position: relative;
+      height: 28px;
+      border-radius: 4px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.08);
+      box-shadow:
+        inset 0 0 0 1px rgba(255,255,255,0.12),
+        inset 0 10px 20px rgba(0,0,0,0.40);
+    }
+
+    .fill {
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 0%;
+      background: -webkit-linear-gradient(left, rgba(255,255,255,0.55), rgba(255,255,255,0.18));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12);
+    }
+
+    .ticks {
+      position: absolute;
+      left: 0; top: 0; right: 0; bottom: 0;
+      background-image: -webkit-linear-gradient(left,
+        rgba(255,255,255,0.18) 0,
+        rgba(255,255,255,0.18) 1px,
+        rgba(255,255,255,0) 1px,
+        rgba(255,255,255,0) 16px
+      );
+      background-size: 16px 100%;
+      opacity: 0.55;
+      pointer-events: none;
+    }
+
+    .meta {
+      margin-top: 10px;
+      font-size: 13px;
+      letter-spacing: 0.10em;
+      opacity: 0.82;
+      white-space: nowrap;
+    }
+
+    .meta .r {
+      float: right;
+      opacity: 0.92;
+    }
+
+    /* iPad(1)向けに崩れにくい段階調整 */
+    @media (max-width: 1024px) {
+      #dial { width: 500px; height: 500px; }
+      #time { font-size: 72px; }
+      #time .digits { font-size: 72px; }
+      #time .ampm { font-size: 26px; }
+      #right { width: 390px; }
+    }
+    @media (max-width: 900px) {
+      #dial { width: 460px; height: 460px; left: 32px; }
+      #time { font-size: 64px; }
+      #time .digits { font-size: 64px; }
+      #time .ampm { font-size: 24px; }
+      #right { width: 360px; right: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="bg">
+    <div class="grain"></div>
+    <div class="vignette"></div>
+  </div>
+
+  <div id="frame">
+    <div id="dial">
+      <div class="bezel"></div>
+      <div id="tickRing"></div>
+      <div class="crossV"></div>
+      <div class="crossH"></div>
+
+      <div id="hands">
+        <div id="hHand" class="hand hour"></div>
+        <div id="mHand" class="hand minute"></div>
+        <div class="hub"></div>
+      </div>
+
+      <div id="sub">
+        <div id="subTicks"></div>
+        <div id="sHand"></div>
+        <div id="sHub"></div>
+      </div>
+
+      <div id="readout">
+        <div id="time">--:--</div>
+        <div id="date">----年--月--日（-）</div>
+      </div>
+    </div>
+
+    <div id="right">
+      <div id="panelTitle">PROGRESS METERS</div>
+
+      <div class="gauge">
+        <div class="gHead">YEAR</div>
+        <div class="bar">
+          <div id="yearFill" class="fill"></div>
+          <div class="ticks"></div>
+        </div>
+        <div class="meta">
+          <span id="yearL">経過 --日</span>
+          <span class="r" id="yearR">残り --日</span>
+        </div>
+      </div>
+
+      <div class="gauge">
+        <div class="gHead">MONTH</div>
+        <div class="bar">
+          <div id="monthFill" class="fill"></div>
+          <div class="ticks"></div>
+        </div>
+        <div class="meta">
+          <span id="monthL">経過 --日</span>
+          <span class="r" id="monthR">残り --日</span>
+        </div>
+      </div>
+
+      <div class="gauge" style="margin-bottom:0;">
+        <div class="gHead">DAY</div>
+        <div class="bar">
+          <div id="dayFill" class="fill"></div>
+          <div class="ticks"></div>
+        </div>
+        <div class="meta">
+          <span id="dayL">経過 --:--</span>
+          <span class="r" id="dayR">残り --:--</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var WEEK = ["日", "月", "火", "水", "木", "金", "土"]; // 日〜土
+      var MS_DAY = 24 * 60 * 60 * 1000;
+      var lastDialSize = 0;
+
+      function pad2(n) { return (n < 10) ? ("0" + n) : ("" + n); }
+
+      function formatTime(now) {
+        var h = now.getHours();
+        var ampm = (h < 12) ? "午前" : "午後";
+        var h12 = h % 12;
+        if (h12 === 0) h12 = 12;
+        var m = now.getMinutes();
+        return '<span class="ampm">' + ampm + '</span><span class="digits">' + h12 + ":" + pad2(m) + '</span>';
+      }
+
+      function formatDate(now) {
+        var y = now.getFullYear();
+        var mo = now.getMonth() + 1;
+        var da = now.getDate();
+        var w = WEEK[now.getDay()];
+        return y + "年" + mo + "月" + da + "日（" + w + "）";
+      }
+
+      function floorToMidnight(d) {
+        return new Date(d.getFullYear(), d.getMonth(), d.getDate());
+      }
+
+      function daysBetween(a, b) {
+        return Math.round((b.getTime() - a.getTime()) / MS_DAY);
+      }
+
+      function clamp01(x) {
+        if (x < 0) return 0;
+        if (x > 1) return 1;
+        return x;
+      }
+
+      function setFill(id, ratio) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.style.width = Math.round(clamp01(ratio) * 1000) / 10 + "%";
+      }
+
+      function fmtHM(sec) {
+        if (sec < 0) sec = 0;
+        var h = Math.floor(sec / 3600);
+        var m = Math.floor((sec % 3600) / 60);
+        return pad2(h) + ":" + pad2(m);
+      }
+
+      function clearChildren(el) {
+        while (el && el.firstChild) el.removeChild(el.firstChild);
+      }
+
+      function ensureDialGeometry() {
+        var dial = document.getElementById("dial");
+        if (!dial) return;
+
+        var size = dial.offsetWidth || 0;
+        if (size === 0 || size === lastDialSize) return;
+        lastDialSize = size;
+
+        // ベゼル内側の半径（だいたい）
+        var radius = Math.floor(size / 2) - 26;
+
+        // 外周目盛り
+        var ring = document.getElementById("tickRing");
+        if (ring) {
+          clearChildren(ring);
+          for (var i = 0; i < 60; i++) {
+            var tick = document.createElement("div");
+            var major = (i % 5 === 0);
+            tick.className = major ? "tick major" : "tick";
+
+            var len = major ? Math.round(radius * 0.10) : Math.round(radius * 0.06);
+            if (len < 8) len = major ? 10 : 8;
+
+            tick.style.height = len + "px";
+            tick.style.marginTop = (-len) + "px";
+
+            var deg = i * 6;
+            var push = (radius - len);
+            tick.style.webkitTransform = "rotate(" + deg + "deg) translateY(" + (-push) + "px)";
+            tick.style.transform = "rotate(" + deg + "deg) translateY(" + (-push) + "px)";
+
+            ring.appendChild(tick);
+          }
+        }
+
+        // 時分針
+        var hHand = document.getElementById("hHand");
+        var mHand = document.getElementById("mHand");
+
+        if (hHand) {
+          var hLen = Math.round(radius * 0.55);
+          var hW = 10;
+          hHand.style.height = hLen + "px";
+          hHand.style.width = hW + "px";
+          hHand.style.marginLeft = (-(hW / 2)) + "px";
+          hHand.style.marginTop = (-hLen) + "px";
+        }
+
+        if (mHand) {
+          var mLen = Math.round(radius * 0.82);
+          var mW = 6;
+          mHand.style.height = mLen + "px";
+          mHand.style.width = mW + "px";
+          mHand.style.marginLeft = (-(mW / 2)) + "px";
+          mHand.style.marginTop = (-mLen) + "px";
+        }
+
+        // サブダイヤル（秒）
+        var sub = document.getElementById("sub");
+        var subTicks = document.getElementById("subTicks");
+        var sHand = document.getElementById("sHand");
+
+        if (sub) {
+          var subSize = Math.round(radius * 0.34);
+          if (subSize < 110) subSize = 110;
+          if (subSize > 170) subSize = 170;
+          sub.style.width = subSize + "px";
+          sub.style.height = subSize + "px";
+
+          // サブ目盛り（12本）
+          if (subTicks) {
+            clearChildren(subTicks);
+            var subR = Math.floor(subSize / 2) - 10;
+            for (var j = 0; j < 60; j += 5) {
+              var st = document.createElement("div");
+              var maj = (j % 15 === 0);
+              st.className = maj ? "sTick major" : "sTick";
+              var sLen = maj ? Math.round(subR * 0.18) : Math.round(subR * 0.12);
+              if (sLen < 6) sLen = maj ? 8 : 6;
+              st.style.height = sLen + "px";
+              st.style.marginTop = (-sLen) + "px";
+              var sDeg = j * 6;
+              var sPush = (subR - sLen);
+              st.style.webkitTransform = "rotate(" + sDeg + "deg) translateY(" + (-sPush) + "px)";
+              st.style.transform = "rotate(" + sDeg + "deg) translateY(" + (-sPush) + "px)";
+              subTicks.appendChild(st);
+            }
+          }
+
+          // 秒針
+          if (sHand) {
+            var handLen = Math.round((subSize / 2 - 14) * 0.85);
+            if (handLen < 40) handLen = 40;
+            sHand.style.height = handLen + "px";
+            sHand.style.marginLeft = "-1px";
+            sHand.style.marginTop = (-handLen) + "px";
+          }
+        }
+      }
+
+      function renderAll() {
+        ensureDialGeometry();
+
+        var now = new Date();
+
+        // 時刻/日付
+        var timeEl = document.getElementById("time");
+        var dateEl = document.getElementById("date");
+        if (timeEl) timeEl.innerHTML = formatTime(now);
+        if (dateEl) dateEl.innerHTML = formatDate(now);
+
+        // アナログ（時分）
+        var h = now.getHours();
+        var m = now.getMinutes();
+        var s = now.getSeconds();
+
+        var hourDeg = ((h % 12) + (m / 60) + (s / 3600)) * 30;
+        var minDeg = (m + (s / 60)) * 6;
+
+        var hHand = document.getElementById("hHand");
+        var mHand = document.getElementById("mHand");
+        if (hHand) {
+          hHand.style.webkitTransform = "rotate(" + hourDeg + "deg)";
+          hHand.style.transform = "rotate(" + hourDeg + "deg)";
+        }
+        if (mHand) {
+          mHand.style.webkitTransform = "rotate(" + minDeg + "deg)";
+          mHand.style.transform = "rotate(" + minDeg + "deg)";
+        }
+
+        // クロノグラフ（秒針）
+        var sHand = document.getElementById("sHand");
+        if (sHand) {
+          var sDeg = (s / 60) * 360;
+          sHand.style.webkitTransform = "rotate(" + sDeg + "deg)";
+          sHand.style.transform = "rotate(" + sDeg + "deg)";
+        }
+
+        // 年プログレス
+        var y = now.getFullYear();
+        var yearStart = new Date(y, 0, 1, 0, 0, 0, 0);
+        var yearEnd = new Date(y + 1, 0, 1, 0, 0, 0, 0);
+        var totalYearDays = daysBetween(yearStart, yearEnd);
+        var todayMid = floorToMidnight(now);
+        var dayOfYear = daysBetween(yearStart, todayMid) + 1;
+        if (dayOfYear < 1) dayOfYear = 1;
+        if (dayOfYear > totalYearDays) dayOfYear = totalYearDays;
+        var yearRemain = totalYearDays - dayOfYear;
+        var yearRatio = (now.getTime() - yearStart.getTime()) / (yearEnd.getTime() - yearStart.getTime());
+        setFill("yearFill", yearRatio);
+        var yearL = document.getElementById("yearL");
+        var yearR = document.getElementById("yearR");
+        if (yearL) yearL.innerHTML = "経過 " + dayOfYear + "日 / " + totalYearDays + "日";
+        if (yearR) yearR.innerHTML = "残り " + yearRemain + "日";
+
+        // 月プログレス
+        var mo = now.getMonth();
+        var monthStart = new Date(y, mo, 1, 0, 0, 0, 0);
+        var monthEnd = new Date(y, mo + 1, 1, 0, 0, 0, 0);
+        var totalMonthDays = daysBetween(monthStart, monthEnd);
+        var dayOfMonth = now.getDate();
+        if (dayOfMonth < 1) dayOfMonth = 1;
+        if (dayOfMonth > totalMonthDays) dayOfMonth = totalMonthDays;
+        var monthRemain = totalMonthDays - dayOfMonth;
+        var monthRatio = (now.getTime() - monthStart.getTime()) / (monthEnd.getTime() - monthStart.getTime());
+        setFill("monthFill", monthRatio);
+        var monthL = document.getElementById("monthL");
+        var monthR = document.getElementById("monthR");
+        if (monthL) monthL.innerHTML = "経過 " + dayOfMonth + "日 / " + totalMonthDays + "日";
+        if (monthR) monthR.innerHTML = "残り " + monthRemain + "日";
+
+        // 日プログレス
+        var dayStart = new Date(y, mo, now.getDate(), 0, 0, 0, 0);
+        var dayEnd = new Date(y, mo, now.getDate() + 1, 0, 0, 0, 0);
+        var elapsedSec = Math.floor((now.getTime() - dayStart.getTime()) / 1000);
+        var remainSec = Math.ceil((dayEnd.getTime() - now.getTime()) / 1000);
+        var dayRatio = (now.getTime() - dayStart.getTime()) / (dayEnd.getTime() - dayStart.getTime());
+        setFill("dayFill", dayRatio);
+        var dayL = document.getElementById("dayL");
+        var dayR = document.getElementById("dayR");
+        if (dayL) dayL.innerHTML = "経過 " + fmtHM(elapsedSec);
+        if (dayR) dayR.innerHTML = "残り " + fmtHM(remainSec);
+      }
+
+      function tick() {
+        renderAll();
+        var now = new Date();
+        var msToNext = 1000 - now.getMilliseconds();
+        if (msToNext < 20) msToNext = 20;
+        setTimeout(tick, msToNext);
+      }
+
+      window.onresize = function () {
+        lastDialSize = 0;
+        ensureDialGeometry();
+      };
+
+      tick();
+    })();
+  </script>
+</body>
+</html>

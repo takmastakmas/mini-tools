@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>時刻</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+      background: #000;
+      color: #fff;
+      overflow: hidden;
+      -webkit-text-size-adjust: 100%;
+      -webkit-user-select: none;
+      -webkit-tap-highlight-color: rgba(0,0,0,0);
+      font-family: -apple-system, Helvetica, Arial, sans-serif;
+    }
+    .wrap {
+      height: 100%;
+      width: 100%;
+      display: table;
+    }
+    .cell {
+      display: table-cell;
+      vertical-align: middle;
+      text-align: center;
+    }
+    #time {
+      font-size: 120px;
+      line-height: 1.1;
+      letter-spacing: 0.02em;
+      padding: 0 12px;
+    }
+    @media (max-width: 800px) { #time { font-size: 86px; } }
+    @media (max-width: 600px) { #time { font-size: 68px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="cell">
+      <div id="time">--時--分</div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      function pad2(n) { return (n < 10) ? ("0" + n) : ("" + n); }
+
+      function render() {
+        var now = new Date();
+        var h = now.getHours();
+        var ampm = (h < 12) ? "午前" : "午後";
+        var h12 = h % 12;
+        if (h12 === 0) h12 = 12;
+        var m = now.getMinutes();
+
+        var text = ampm + h12 + "時" + pad2(m) + "分";
+        var el = document.getElementById("time");
+        if (el) el.innerHTML = text;
+      }
+
+      function tick() {
+        render();
+        var now = new Date();
+        var msToNextMinute = (60 - now.getSeconds()) * 1000 - now.getMilliseconds();
+        if (msToNextMinute < 50) msToNextMinute = 50;
+        setTimeout(tick, msToNextMinute);
+      }
+
+      tick();
+    })();
+  </script>
+</body>
+</html>
